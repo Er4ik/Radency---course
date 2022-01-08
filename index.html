@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>ToDo</title>
+</head>
+<body>
+    <main class="container">
+        <section class="main-table">
+            <div class="table__header">
+                <div class="table__header_icon"></div>
+                <div class="table__header_name">
+                    <h3>Name</h3>
+                </div>
+                <div class="table__header_created">
+                    <h3>Created</h3>
+                </div>
+                <div class="table__header_category">
+                    <h3>Category</h3>
+                </div>
+                <div class="table__header_content">
+                    <h3>Content</h3>
+                </div>
+                <div class="table__header_date">
+                    <h3>Date</h3>
+                </div>
+                <div class="table__header_nav">
+                    <img src="./picture/icon-archive.png" alt="archive">
+                    <img src="./picture/icon-delete.png" alt="delete">
+                </div>
+            </div>
+            <div class="table__content">
+                <div class="table__content_row">
+                    <div class="content-icon">
+                        <img src="./picture/icon-idea.png" alt="picture">
+                    </div>
+                    <div class="content" data-content="name">
+                        <p></p>
+                    </div>
+                    <div class="content" data-content="created">
+                        <p></p>
+                    </div>
+                    <div class="content" data-content="category">
+                        <p></p>
+                    </div>
+                    <div class="content" data-content="content">
+                        <p></p>
+                    </div>
+                    <div class="content" data-content="date">
+                        <p></p>
+                    </div>
+                    <div class="content-nav">
+                        <img src="./picture/icon-edit.png" alt="edit">
+                        <img src="./picture/icon-archive.png" alt="archive">
+                        <img src="./picture/icon-delete.png" alt="delete">
+                    </div>
+                </div>
+            </div>
+            <div id="button-create">
+                <button>Create Note</button>
+            </div>
+        </section>
+        <section class="pivot-table">
+            <div class="table__header">
+                <div class="table__header_icon"></div>
+                <div class="table__header_name pivot-header">
+                    <h3>Note Category</h3>
+                </div>
+                <div class="table__header_created pivot-header">
+                    <h3>Active</h3>
+                </div>
+                <div class="table__header_category pivot-header">
+                    <h3>Archived</h3>
+                </div>
+            </div>
+            <div class="table__content">
+                <div class="table__content_row">
+                    <div class="content-icon">
+                        <img src="./picture/icon-idea.png" alt="picture">
+                    </div>
+                    <div class="content pivot-content" data-content="name">
+                        <p></p>
+                    </div>
+                    <div class="content pivot-content" data-content="created">
+                        <p></p>
+                    </div>
+                    <div class="content pivot-content" data-content="category">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="./js/index.js"></script>
+</body>
+</html>
