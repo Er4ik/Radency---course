@@ -1,8 +1,6 @@
-export function createPost(...fields) {
-    const { pathToIcon, name, dateCreated, category, content, date } = fields;
-    
+export function createPostRow(pathToIcon, name, dateCreated, category, content, date, index) {
     const tableContentRow = `
-        <div class="table__content_row">
+        <div class="table__content_row" data-storage-index="${index}">
             <div class="content-icon">
                 <img src="${pathToIcon}" alt="icon">
             </div>
@@ -22,14 +20,13 @@ export function createPost(...fields) {
                 <p>${date}</p>
             </div>
             <div class="content-nav">
-                <img src="./picture/icon-edit.png" alt="edit">
-                <img src="./picture/icon-archive.png" alt="archive">
-                <img src="./picture/icon-delete.png" alt="delete">
+                <img class='edit-post' src="./picture/icon-edit.png" alt="edit">
+                <img class='archive-post' src="./picture/icon-archive.png" alt="archive">
+                <img class='delete-post' src="./picture/icon-delete.png" alt="delete">
             </div>
         </div>
     `
 
     return tableContentRow;
 }
-
 

@@ -34,58 +34,7 @@
                     <img src="./picture/icon-delete.png" alt="delete">
                 </div>
             </div>
-            <div class="table__content">
-                <div class="table__content_row">
-                    <div class="content-icon">
-                        <img src="./picture/icon-idea.png" alt="picture">
-                    </div>
-                    <div class="content" data-content="name">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="created">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="category">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="content">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="date">
-                        <p></p>
-                    </div>
-                    <div class="content-nav">
-                        <img src="./picture/icon-edit.png" alt="edit">
-                        <img src="./picture/icon-archive.png" alt="archive">
-                        <img src="./picture/icon-delete.png" alt="delete">
-                    </div>
-                </div>
-                <div class="table__content_row">
-                    <div class="content-icon">
-                        <img src="./picture/icon-idea.png" alt="picture">
-                    </div>
-                    <div class="content" data-content="name">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="created">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="category">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="content">
-                        <p></p>
-                    </div>
-                    <div class="content" data-content="date">
-                        <p></p>
-                    </div>
-                    <div class="content-nav">
-                        <img src="./picture/icon-edit.png" alt="edit">
-                        <img src="./picture/icon-archive.png" alt="archive">
-                        <img src="./picture/icon-delete.png" alt="delete">
-                    </div>
-                </div>
-            </div>
+            <div class="table__content table__content_main"></div>
             <div id="table-button-create">
                 <button>Create Note</button>
             </div>
@@ -103,37 +52,36 @@
                     <h3>Archived</h3>
                 </div>
             </div>
-            <div class="table__content">
-                <div class="table__content_row">
-                    <div class="content-icon">
-                        <img src="./picture/icon-idea.png" alt="picture">
-                    </div>
-                    <div class="content pivot-content" data-content="name">
-                        <p></p>
-                    </div>
-                    <div class="content pivot-content" data-content="created">
-                        <p></p>
-                    </div>
-                    <div class="content pivot-content" data-content="category">
-                        <p></p>
-                    </div>
-                </div>
-            </div>
+            <div class="table__content"></div>
         </section>
     </main>
     <section class="create-note">
         <div class="create-note__modal">
-            <input type="text" placeholder="Name">
-            <select name="Category">
-                <option value="value1">Task</option>
-                <option value="value2">Random Thought</option>
-                <option value="value3">Idea</option>
+            <input class="post-value" type="text" name="name" placeholder="Name">
+            <select class="post-value" name="category">
+                <option value="Task">Task</option>
+                <option value="Thought">Random Thought</option>
+                <option value="Idea">Idea</option>
             </select>
-            <input type="text" placeholder="Content">
+            <input class="post-value" type="text" name="content" placeholder="Content">
             <button id="create-note-button">Create</button>
         </div>
         <div class="create-note__overlay"></div>
     </section>
-    <script src="./js/index.js"></script>
+    <section class="edit-note">
+        <div class="edit-note__modal">
+            <input class="post-value-edit" type="text" name="name" placeholder="Name">
+            <select class="post-value-edit" name="category">
+                <option value="Task">Task</option>
+                <option value="Thought">Random Thought</option>
+                <option value="Idea">Idea</option>
+            </select>
+            <input class="post-value-edit" type="text" name="content" placeholder="Content">
+            <button id="edit-note-button">Edit</button>
+        </div>
+        <div class="edit-note__overlay"></div>
+    </section>
+    <script src="./js/html.js" type="module"></script>
+    <script src="./js/index.js" type="module"></script>
 </body>
 </html>

@@ -151,7 +151,7 @@ body {
     opacity: 0.6;
 }
 
-.create-note__modal {
+.create-note__modal, .edit-note__modal {
     position: absolute;
     left: 40%;
     top: 25%;
@@ -166,7 +166,8 @@ body {
     z-index: 100;
 }
 
-.create-note__modal > input, .create-note__modal > select {
+.create-note__modal > input, .create-note__modal > select,
+.edit-note__modal > input, .edit-note__modal > select {
     display: flex;
     justify-content: center;
     border-radius: 25px;
@@ -178,12 +179,12 @@ body {
     height: 60px;
 }
 
-.create-note__modal > select {
+.create-note__modal > select, .edit-note__modal > select {
     font-family: var(--font-roboto);
     font-weight: 600;
 }
  
-.create-note__modal > button {
+.create-note__modal > button, .edit-note__modal > button {
     background-color: var(--color-white);
     width: 30%;
     height: auto;
@@ -192,12 +193,12 @@ body {
     font-family: var(--font-roboto);
 }
 
-.create-note__modal > button:hover {
+.create-note__modal > button:hover, .edit-note__modal > button:hover {
     cursor: pointer;
     opacity: 0.6;
 }
 
-.create-note__overlay {
+.create-note__overlay, .edit-note__overlay {
     z-index: 90;
     position: fixed;
     top: 0;
@@ -208,6 +209,6 @@ body {
     opacity: 0.6;
 }
 
-.create-note {
+.create-note, .edit-note {
     display: none;
 }
