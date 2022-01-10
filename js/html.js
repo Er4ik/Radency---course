@@ -30,3 +30,24 @@ export function createPostRow(pathToIcon, name, dateCreated, category, content, 
     return tableContentRow;
 }
 
+export function createPivotPostRow(pathToIcon, category, amountActive, amountArchive) {
+    const tableContentRow = `
+        <div class="table__content_row">
+            <div class="content-icon">
+                <img src="${pathToIcon}" alt="picture">
+            </div>
+            <div class="content pivot-content" data-content="name">
+                <p>${category}</p>
+            </div>
+            <div class="content pivot-content" data-content="created">
+                <p>${amountActive}</p>
+            </div>
+            <div class="content pivot-content" data-content="category">
+                <p>${amountArchive}</p>
+            </div>
+        </div>
+    `
+
+    return tableContentRow;
+}
+
