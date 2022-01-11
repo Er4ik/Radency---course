@@ -9,8 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const postPivot = new PostPivot();
 
     let postRow;
+
+    const createStatus = () => {
+        const buttonDelete = document.querySelector('.header-nav-hide');
+        const status = buttonDelete.attributes.alt.value;
+        return status;
+    }
     
-    if(Number(window.localStorage.getItem('numPost')) === 0) {
+    if(Number(window.localStorage.length) === 1 || Number(window.localStorage.length) === 0) {
         window.localStorage.setItem('numPost', 0);
     }
 
@@ -25,16 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     modal.modalCreateNoteButton.addEventListener('click', () => {
-        const buttonDelete = document.querySelector('.header-nav-hide');
-        const status = buttonDelete.attributes.alt.value;
-        // вынести 2 строки верхние в отедльную функцию везде
+        const status = createStatus();
         modal.createEditPost(post.statusForStorage[status]);
+        postPivot.showResulInTable();
     });
     
     post.tableContent.addEventListener('click', (button) => {
         const className = button.target.attributes.class.value;
-        const buttonDelete = document.querySelector('.header-nav-hide');
-        const status = buttonDelete.attributes.alt.value;
+        const status = createStatus();
         if(className === 'delete-post') {
             post.deletePost(button.target, post.statusForStorage[status]);
         }
@@ -42,19 +46,28 @@ document.addEventListener('DOMContentLoaded', () => {
             postRow = post.editPost(button.target, post.statusForStorage[status]);
         }
         else if(className === 'archive-post') {
-            postRow = post.archivePost(button.target);
+            post.archiveUnarchivePost(button.target, status);
         }
+        postPivot.showResulInTable();
     })
 
     post.modalEditNoteButton.addEventListener('click', () => {
-        const buttonDelete = document.querySelector('.header-nav-hide');
-        const status = buttonDelete.attributes.alt.value;
+        const status = createStatus();
         post.createEditPost(postRow, post.statusForStorage[status]);
+        postPivot.showResulInTable();
     })
 
     post.archiveOrActiveButton.addEventListener('click', () => {
         post.showArchiveOrActivePost(post.archiveOrActiveButton);
     })
 
-    // postPivot.calculateAmountActive();
+    document.querySelectorAll('.archive-post').forEach(elem => {
+        const status = createStatus();
+        elem.addEventListener('click', () => {
+            post.archiveUnarchivePost(button.target, status);
+        })
+    })
+
+    postPivot.showResulInTable();
+
 })

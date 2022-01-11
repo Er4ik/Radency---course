@@ -1,8 +1,8 @@
-export function createPostRow(pathToIcon, name, dateCreated, category, content, date, index) {
+export function createPostRow(name, dateCreated, category, content, date, index) {
     const tableContentRow = `
         <div class="table__content_row" data-storage-index="${index}">
             <div class="content-icon">
-                <img src="${pathToIcon}" alt="icon">
+                <img src="./picture/icon-${category}.png" alt="icon">
             </div>
             <div class="content" data-content="name">
                 <p>${name}</p>
@@ -30,11 +30,11 @@ export function createPostRow(pathToIcon, name, dateCreated, category, content, 
     return tableContentRow;
 }
 
-export function createPivotPostRow(pathToIcon, category, amountActive, amountArchive) {
+export function createPivotPostRow(category, amountActive, amountArchive) {
     const tableContentRow = `
         <div class="table__content_row">
             <div class="content-icon">
-                <img src="${pathToIcon}" alt="picture">
+                <img src="./picture/icon-${category}.png" alt="picture">
             </div>
             <div class="content pivot-content" data-content="name">
                 <p>${category}</p>

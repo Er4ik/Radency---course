@@ -20,7 +20,7 @@ export class ModalWindow {
     }
 
     showHideNoteModalWindow(noteCreateWindow, flagCreate) {
-        this.clearModalFields();
+        this.clearModalFields(this.postContent);
         if(flagCreate) { 
             noteCreateWindow.style.display = 'block';
             return;
@@ -50,13 +50,12 @@ export class ModalWindow {
         })
 
         postParams['index'] =  Number(window.localStorage.getItem('numPost')) + 1;
-        postParams['pathToIcon'] = `./picture/icon-${postParams['category']}.png`;
         postParams['date'] = this.dateNow();
         return postParams;
     }
 
-    clearModalFields() {
-        this.postContent.forEach(elem => {
+    clearModalFields(content) {
+        content.forEach(elem => {
             if(elem.attributes.name === 'category') {
                 elem.options[elem.selectedIndex].value = '';
             }
@@ -74,7 +73,6 @@ export class ModalWindow {
     }
 
     deleteFromStoreOnIndex(index, status) {
-        console.log(index, status);
         window.localStorage.removeItem(`${status}${index}`);
         return;
     }
@@ -82,11 +80,11 @@ export class ModalWindow {
     createEditPost(status) {
         const paramsPostRow = this.createObjectFieldsForPostRow(this.postContent);
         this.addDataPostToLocalStorage(paramsPostRow, status);
-        const contentRow = createPostRow(paramsPostRow.pathToIcon, paramsPostRow.name, 
+        const contentRow = createPostRow(paramsPostRow.name, 
             paramsPostRow.date, paramsPostRow.category, paramsPostRow.content,
             paramsPostRow.date, paramsPostRow.index);
         this.addPostRowToBLockContent(contentRow);
-        this.clearModalFields();
+        this.clearModalFields(this.postContent);
         this.showHideNoteModalWindow(this.modalCreateBlock, this.showModalWindowFlag.hide)
         return;
     }

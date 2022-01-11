@@ -1,4 +1,4 @@
-import { createPostRow } from './html.js';
+import { createPostRow, createPivotPostRow } from './html.js';
 import { ModalWindow } from './modal-window.js';
 
 export class Post extends ModalWindow {
@@ -53,7 +53,7 @@ export class Post extends ModalWindow {
             const matrixData = this.prepareDataMatrixFromStorage(status, dataFromStorage);
             matrixData.forEach(elem => {
                 const resPostData = this.createObjectFieldsForPostRow(elem);
-                const contentRow = createPostRow(resPostData.pathToIcon, resPostData.name, 
+                const contentRow = createPostRow(resPostData.name, 
                     resPostData.date, resPostData.category, resPostData.content,
                     resPostData.date, resPostData.index);
                 super.addPostRowToBLockContent(contentRow);
@@ -81,7 +81,6 @@ export class Post extends ModalWindow {
     }
 
     addValueToModalFields(postRow, status) {
-        console.log(status);
         const indexStorage = postRow.dataset.storageIndex;
         const dataFromStorage = this.checkLocalStorage()[`${status}${indexStorage}`].split(',');
         const objDataFromStorage = this.createObjectFieldsForPostRow(dataFromStorage);
@@ -96,11 +95,11 @@ export class Post extends ModalWindow {
         this.deletePost(postRow, status);
         const paramsPostRow = super.createObjectFieldsForPostRow(this.postContentEdit);
         super.addDataPostToLocalStorage(paramsPostRow, status);
-        const contentRow = createPostRow(paramsPostRow.pathToIcon, paramsPostRow.name, 
+        const contentRow = createPostRow(paramsPostRow.name, 
             paramsPostRow.date, paramsPostRow.category, paramsPostRow.content,
             paramsPostRow.date, paramsPostRow.index);
         super.addPostRowToBLockContent(contentRow);
-        super.clearModalFields();
+        super.clearModalFields(this.postContent);
         super.showHideNoteModalWindow(this.modalEditBlock, this.showModalWindowFlag.hide)
         return;
     }
@@ -114,12 +113,18 @@ export class Post extends ModalWindow {
 
 
 
-    archivePost(button) {
+    archiveUnarchivePost(button, status) {
         const postRow = button.closest('.table__content_row');
         const indexStorage = postRow.dataset.storageIndex;
-        const dataFromStorage = window.localStorage.getItem(`${this.statusForStorage.active}${indexStorage}`)
-        this.deletePost(button, this.statusForStorage.active);
-        window.localStorage.setItem(`${this.statusForStorage.archive}${indexStorage}`, dataFromStorage);
+        const dataFromStorage = window.localStorage.getItem(`${this.statusForStorage[status]}${indexStorage}`)
+        this.deletePost(button, this.statusForStorage[status]);
+        window.localStorage.setItem(`${this.statusForStorage[this.statusOpposite[status]]}${indexStorage}`, dataFromStorage);
+        return;
+    }
+
+    changeButtonAttributes(button, status) {
+        button.attributes.alt.value = this.statusOpposite[status];
+        button.attributes.src.value = `./picture/icon-${status}.png`;
         return;
     }
 
@@ -127,22 +132,53 @@ export class Post extends ModalWindow {
         const status = button.attributes.alt.value;
         this.tableContent.innerHTML = '';
         this.showPostFromLocalStorage(this.statusForStorage[this.statusOpposite[status]]);
-        button.attributes.alt.value = this.statusOpposite[status];
-        button.attributes.src.value = `./picture/icon-${status}.png`;
+        this.changeButtonAttributes(button, status);
+        document.querySelectorAll('.archive-post').forEach(elem => {
+            elem.attributes.src.value = `./picture/icon-${status}.png`;
+        })
         return;
+    }
+
+    unarchive() {
+
     }
 }
 
 export class PostPivot extends Post {
     constructor() {
         super();
+        this.pivotContent = document.querySelector('.table__content_pivot');
+        this.arrCategory = ['Task', 'Idea', 'Thought']
     }
 
-    calculateAmountActive() {
-        const activePosts = document.querySelectorAll('.table__content_row');
-        const amountActivePosts = activePosts.length;
-        return amountActivePosts;
+    calculateAmountPost(category) {
+        const dataFromStorage = this.checkLocalStorage();
+        let amountActive = 0;
+        let amountArchive = 0;
+        for(const key in dataFromStorage) {
+            if(dataFromStorage[key].includes(category)) {
+                if(key.includes('post')) {
+                    amountActive++;
+                    continue;
+                }
+                else if(key.includes('hide')) {
+                    amountArchive++;
+                    continue;
+                }
+            }
+        }
+
+        return { active: amountActive, archive: amountArchive };
+    }
+
+    showResulInTable() {
+        let resHtmlToTable = '';
+        this.arrCategory.forEach(elem => {
+            const resAmountStatus = this.calculateAmountPost(elem);
+            const htmlToTable = createPivotPostRow(elem, resAmountStatus.active, resAmountStatus.archive);
+            resHtmlToTable += htmlToTable;
+        })
+        this.pivotContent.innerHTML = resHtmlToTable;
+        return;
     }
 }
-
-const postPivot = new PostPivot();
