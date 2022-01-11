@@ -9,12 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const postPivot = new PostPivot();
 
     let postRow;
-
-    const createStatus = () => {
-        const buttonDelete = document.querySelector('.header-nav-hide');
-        const status = buttonDelete.attributes.alt.value;
-        return status;
-    }
     
     if(Number(window.localStorage.length) === 1 || Number(window.localStorage.length) === 0) {
         window.localStorage.setItem('numPost', 0);
@@ -23,22 +17,30 @@ document.addEventListener('DOMContentLoaded', () => {
     post.showPostFromLocalStorage('post');
 
     modal.tableCreateNoteButton.addEventListener('click', () => {
-        modal.showHideNoteModalWindow(modal.modalCreateBlock, modal.showModalWindowFlag.show);
+        try {
+            modal.showHideNoteModalWindow(modal.modalCreateBlock, modal.showModalWindowFlag.show);
+        } catch (error) {
+            
+        }
     });
 
     modal.modalOverlayBlock.addEventListener('click', () => {
         modal.showHideNoteModalWindow(modal.modalCreateBlock, modal.showModalWindowFlag.hide);
     });
 
+    post.pivotOverlayBlock.addEventListener('click', () => {
+        modal.showHideNoteModalWindow(post.modalEditBlock, modal.showModalWindowFlag.hide);
+    });
+
     modal.modalCreateNoteButton.addEventListener('click', () => {
-        const status = createStatus();
+        const status = post.createStatus();
         modal.createEditPost(post.statusForStorage[status]);
         postPivot.showResulInTable();
     });
     
     post.tableContent.addEventListener('click', (button) => {
         const className = button.target.attributes.class.value;
-        const status = createStatus();
+        const status = post.createStatus();
         if(className === 'delete-post') {
             post.deletePost(button.target, post.statusForStorage[status]);
         }
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     post.modalEditNoteButton.addEventListener('click', () => {
-        const status = createStatus();
+        const status = post.createStatus();
         post.createEditPost(postRow, post.statusForStorage[status]);
         postPivot.showResulInTable();
     })
@@ -62,10 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     document.querySelectorAll('.archive-post').forEach(elem => {
-        const status = createStatus();
-        elem.addEventListener('click', () => {
+        const status = post.createStatus();
+        elem.addEventListener('click', (button) => {
             post.archiveUnarchivePost(button.target, status);
         })
+    })
+
+    post.deleteAllPosts.addEventListener('click', () => {
+        post.deleteAllPostFunc();
+        postPivot.showResulInTable();
     })
 
     postPivot.showResulInTable();
