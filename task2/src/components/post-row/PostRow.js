@@ -1,15 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import ContentPost from "../content-post/ContentPost";
 import HeaderPost from "../header-post/HeaderPost";
+import PivotHeader from "../pivot-table/pivotTable";
 
-export default function Post() {
-    return (
+export default function Post({table}) {
+    if(table === 'main') {
+        return (
+        <>
+            <HeaderPost />
+            <ContentPost />
+        </>
+        );
+    }
+    else return (
       <>
-        <HeaderPost />
-        <ContentPost />
-        <HeaderPost />
-        <ContentPost />
+        <PivotHeader />
       </>
     );
 }

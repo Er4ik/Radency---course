@@ -4,9 +4,10 @@ import Post from './components/post-row/PostRow';
 function App() {
   return (
     <main className="container">
-      <Post />
+      <Post table={"main"} />
+      <Post table={"pivot"} />
     </main>
-  )
+  );
 }
 
 export default App;

@@ -6,6 +6,10 @@ export const columnNames = {
   name: ["Name", "Created", "Category", "Content", "Dates"],
 }
 
+export const pivotColumnStatus = {
+  name: ["Task", "Thought", "Idea"],
+};
+
 export const reducerCase = {
   ADD_POST: "ADD_POST",
   DELETE_POST: "DELETE_POST",

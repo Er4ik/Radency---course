@@ -4,9 +4,28 @@ import { displayShow, months, reducerCase, tableStatus } from "../../types";
 import ContentColumnData from "./ContentFiled";
  
 export default function ContentPost() {
+
+  const validateFieldModal = (contentFromModalFields) => {
+    try {
+      const availableDataFiledCategory = ["Idea", "Thought", "Task"];
+      for (const key in contentFromModalFields) {
+        if (!contentFromModalFields[key] && key !== "dateContent") return false;
+        else if (
+          key === "category" &&
+          !availableDataFiledCategory.includes(contentFromModalFields[key])
+        )
+          return false;
+      } 
+      return true;
+    } catch (error) {
+      throw new Error(`Error validate ${error}`);
+    }
+  };
+
   const showHideModal = (modal, status) => {
     modal.style.display = status;
   };
+
   const dateNow = () => {
     const Data = new Date();
     const year = Data.getFullYear();
@@ -28,7 +47,9 @@ export default function ContentPost() {
   const prepareDataFromModal = (formBtns) => {
     const resFields = {};
     for (const elem of formBtns) {
-      if (elem.className === "post-value") resFields[elem.name] = elem.value;
+      if (elem.className === "post-value") {
+        resFields[elem.name] = elem.value;
+      } 
     }
     resFields.date = dateNow();
     resFields.dateContent = checkDateFromContent(resFields.content);
@@ -39,10 +60,15 @@ export default function ContentPost() {
     const formBtns = form.elements;
     const index = modalWindow.attributes.dataIndex;
     const contentFromModalFields = prepareDataFromModal(formBtns);
-    const status = state.headerPost.status;
-    dispatch({type: reducer, payload: {contentFromModalFields, status, index}});
-    showHideModal(modalWindow, displayShow.HIDE);
-    form.reset();
+    if(validateFieldModal(contentFromModalFields)) {
+      const status = state.headerPost.status;
+      dispatch({
+        type: reducer,
+        payload: { contentFromModalFields, status, index },
+      });
+      showHideModal(modalWindow, displayShow.HIDE);
+      form.reset();
+    }
   }
 
   const createPost = (event) => {
@@ -64,8 +90,8 @@ export default function ContentPost() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   let counterPosts = 0;
-  console.log(state);
   const showPosts = state.headerPost.status === tableStatus.active ? state.hide : state.post;
+
   return (
     <section>
       <div className="table__content table__content_main">
