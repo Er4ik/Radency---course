@@ -3,13 +3,11 @@ import { useSelector } from "react-redux";
 import ContentPost from "../content-post/ContentPost";
 import HeaderPost from "../header-post/HeaderPost";
 
-export default function Post({content1}) {
-    const state = useSelector(state => state);
-
+export default function Post() {
     return (
         <>
-            <HeaderPost props={content1} />
-            <ContentPost posts={state.post} />
+            <HeaderPost />
+            <ContentPost />
         </>
     );
 }

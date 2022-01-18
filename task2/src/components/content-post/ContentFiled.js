@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { displayShow, iconCategory, reducerCase, tableStatus } from "../../types";
+import { displayShow, iconCategory, oppositeTableStatus, reducerCase, tableStatus } from "../../types";
 import iconDelete from "../../picture/icon-delete.png";
 import iconActive from "../../picture/icon-active.png";
 import iconArchive from "../../picture/icon-archive.png";
@@ -9,13 +9,6 @@ import iconEdit from "../../picture/icon-edit.png";
 export default function ContentColumnData({ elem, showHideModal }) {
   const dispatch = useDispatch();
   const state = useSelector(state => state);
-  const tableStatusNow = document.querySelector('.header-nav-hide').attributes.alt;
-
-  const checkEditPost = (index) => {
-    for (const elem of state.post) {
-      if (elem.index === index) return elem;
-    }
-  };
 
   const fillFieldsModalEdit = (fieldsValues, formEdit) => {
     for (const elem of formEdit) {
@@ -24,19 +17,24 @@ export default function ContentColumnData({ elem, showHideModal }) {
   };
 
   const editPost = (elem) => {
+    const posts =
+      state.headerPost.status === tableStatus.active ? state.hide : state.post;
     const modal = document.querySelector(".edit-note");
     const formEdit = document.querySelector(".edit-note__modal");
-    const postExists = checkEditPost(elem.index);
-    fillFieldsModalEdit(postExists, formEdit);
+    const index = posts.indexOf(elem);
+    modal.attributes.dataIndex = index;
+    fillFieldsModalEdit(posts[index], formEdit);
     showHideModal(modal, displayShow.SHOW);
   }
 
-  const archivePost = (elem) => {
-    // dispatch({type: reducerCase.ARCHIVE_POST, payload: elem})
-  }
+  const archiveUnArchivePost = (post, status) => {
+    if(status === tableStatus.archive) dispatch({ type: reducerCase.ARCHIVE_POST, payload: post });
+    else if(status === tableStatus.active) dispatch({ type: reducerCase.UNARCHIVE_POST, payload: post });
+  };
 
   const deletePost = (post) => {
-    dispatch({type: reducerCase.DELETE_POST, payload: post});
+    const status = state.headerPost.status;
+    dispatch({type: reducerCase.DELETE_POST, payload: {post, status}});
     return;
   };
 
@@ -69,9 +67,13 @@ export default function ContentColumnData({ elem, showHideModal }) {
         />
         <img
           className="archive-post"
-          src={tableStatusNow === tableStatus.active ? iconActive: iconArchive }
-          alt={tableStatusNow}
-          onClick={archivePost(elem)}
+          src={
+            state.headerPost.status === tableStatus.active
+              ? iconActive
+              : iconArchive
+          }
+          alt={state.headerPost.status}
+          onClick={() => archiveUnArchivePost(elem, state.headerPost.status)}
         />
         <img
           className="delete-post"

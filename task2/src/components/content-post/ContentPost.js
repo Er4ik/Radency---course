@@ -1,13 +1,12 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { displayShow, months, reducerCase } from "../../types";
+import { displayShow, months, reducerCase, tableStatus } from "../../types";
 import ContentColumnData from "./ContentFiled";
  
-export default function ContentPost({ posts }) {
+export default function ContentPost() {
   const showHideModal = (modal, status) => {
     modal.style.display = status;
   };
-
   const dateNow = () => {
     const Data = new Date();
     const year = Data.getFullYear();
@@ -26,22 +25,28 @@ export default function ContentPost({ posts }) {
     return dates.join(", ");
   };
 
-  const prepareDataFromModal = (formBtns, state) => {
+  const prepareDataFromModal = (formBtns, state, indexPost) => {
     const resFields = {};
     for (const elem of formBtns) {
       if (elem.className === "post-value") resFields[elem.name] = elem.value;
     }
     resFields.date = dateNow();
     resFields.dateContent = checkDateFromContent(resFields.content);
-    resFields.index =
-      state.post.length > 0 ? state.post[state.post.length - 1].index + 1 : 0;
+    if(indexPost !== undefined) resFields.index = Number(indexPost);
+    else {
+      resFields.index =
+        state.post.length > 0 ? state.post[state.post.length - 1].index + 1 : 0;
+    }
+
     return resFields;
   };
 
   const handlerPost = (modalWindow, form, reducer) => {
     const formBtns = form.elements;
-    const contentFromModalFields = prepareDataFromModal(formBtns, state);
-    dispatch({type: reducer, payload: contentFromModalFields});
+    const index = modalWindow.attributes.dataIndex;
+    const contentFromModalFields = prepareDataFromModal(formBtns, state, index);
+    const status = state.headerPost.status;
+    dispatch({type: reducer, payload: {contentFromModalFields, status}});
     showHideModal(modalWindow, displayShow.HIDE);
     form.reset();
   }
@@ -64,17 +69,19 @@ export default function ContentPost({ posts }) {
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
-
+  let counterPosts = 0;
+  // console.log(state);
+  const showPosts = state.headerPost.status === tableStatus.active ? state.hide : state.post;
   return (
     <section>
       <div className="table__content table__content_main">
         {
-        posts.map((elem) => {
+        showPosts.map((elem) => {
           return (
             <ContentColumnData
               elem={elem}
               showHideModal={showHideModal}
-              key={elem.index}
+              key={counterPosts++}
             />
           );
         })
@@ -93,10 +100,7 @@ export default function ContentPost({ posts }) {
         </div>
       </div>
       <div className="create-note">
-        <form
-          className="create-note__modal"
-          onSubmit={createPost}
-        >
+        <form className="create-note__modal" onSubmit={createPost}>
           <input
             className="post-value"
             type="text"
@@ -127,10 +131,7 @@ export default function ContentPost({ posts }) {
         ></div>
       </div>
       <div className="edit-note">
-        <form
-          className="edit-note__modal"
-          onSubmit={editPost}
-        >
+        <form className="edit-note__modal" onSubmit={editPost}>
           <input
             className="post-value"
             type="text"
