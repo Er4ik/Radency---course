@@ -5,9 +5,11 @@ import HeaderPost from "../header-post/HeaderPost";
 
 export default function Post() {
     return (
-        <>
-            <HeaderPost />
-            <ContentPost />
-        </>
+      <>
+        <HeaderPost />
+        <ContentPost />
+        <HeaderPost />
+        <ContentPost />
+      </>
     );
 }

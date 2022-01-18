@@ -28,13 +28,12 @@ const deletePost = (state, {post, status}) => {
 
 const deleteAllPost = (state, status) => {
   const posts = status === tableStatus.archive ? state.post : state.hide;
-  posts.splice(0, state.post.length);
+  posts.splice(0, posts.length);
   return { ...state = state };
 };
 
-const editPost = (state, { contentFromModalFields, status }) => {
+const editPost = (state, { contentFromModalFields, status, index }) => {
   const posts = status === tableStatus.active ? state.hide : state.post;
-  let index = contentFromModalFields.index;
   posts.splice(index, 1, contentFromModalFields);
   return { ...state = state };
 };
@@ -66,7 +65,7 @@ const reducer = (state = defaultState, action) => {
     case reducerCase.DELETE_POST:
       return deletePost(state, action.payload);
     case reducerCase.DELETE_ALL_POST:
-      return deleteAllPost(state);
+      return deleteAllPost(state, action.payload);
     case reducerCase.EDIT_POST:
       return editPost(state, action.payload);
     case reducerCase.ARCHIVE_POST:

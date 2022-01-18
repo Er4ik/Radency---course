@@ -25,28 +25,22 @@ export default function ContentPost() {
     return dates.join(", ");
   };
 
-  const prepareDataFromModal = (formBtns, state, indexPost) => {
+  const prepareDataFromModal = (formBtns) => {
     const resFields = {};
     for (const elem of formBtns) {
       if (elem.className === "post-value") resFields[elem.name] = elem.value;
     }
     resFields.date = dateNow();
     resFields.dateContent = checkDateFromContent(resFields.content);
-    if(indexPost !== undefined) resFields.index = Number(indexPost);
-    else {
-      resFields.index =
-        state.post.length > 0 ? state.post[state.post.length - 1].index + 1 : 0;
-    }
-
     return resFields;
   };
 
   const handlerPost = (modalWindow, form, reducer) => {
     const formBtns = form.elements;
     const index = modalWindow.attributes.dataIndex;
-    const contentFromModalFields = prepareDataFromModal(formBtns, state, index);
+    const contentFromModalFields = prepareDataFromModal(formBtns);
     const status = state.headerPost.status;
-    dispatch({type: reducer, payload: {contentFromModalFields, status}});
+    dispatch({type: reducer, payload: {contentFromModalFields, status, index}});
     showHideModal(modalWindow, displayShow.HIDE);
     form.reset();
   }
@@ -70,7 +64,7 @@ export default function ContentPost() {
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
   let counterPosts = 0;
-  // console.log(state);
+  console.log(state);
   const showPosts = state.headerPost.status === tableStatus.active ? state.hide : state.post;
   return (
     <section>

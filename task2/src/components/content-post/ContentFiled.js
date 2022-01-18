@@ -39,7 +39,7 @@ export default function ContentColumnData({ elem, showHideModal }) {
   };
 
   return (
-    <div className="table__content_row" data-storage-index={elem.index}>
+    <div className="table__content_row">
       <div className="content-icon">
         <img src={iconCategory[elem.category]} alt="icon" />
       </div>
