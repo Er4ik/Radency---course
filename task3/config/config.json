@@ -1,0 +1,12 @@
+{
+    "SERVER_CONFIG": {
+        "PORT": 3000
+    },
+    "DB_CONFIG": {
+        "DB_NAME": "radency_course",
+        "DB_USER_NAME": "root",
+        "DB_PASSWORD": "root",
+        "DIALECT": "mysql",
+        "HOST": "localhost"
+    }
+}
